@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Activity for the main starting screen.
  */
 class MainActivity : AppCompatActivity() {
-    private final val TAG = "MainActivity"
+    private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
