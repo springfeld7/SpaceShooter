@@ -13,7 +13,6 @@
         android:text="@string/start_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_margin="@dimen/start_button_margin"></Button>
-
+        android:layout_margin="@dimen/start_button_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
