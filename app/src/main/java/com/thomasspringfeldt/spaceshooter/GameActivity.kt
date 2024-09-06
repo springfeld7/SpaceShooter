@@ -19,13 +19,13 @@ class GameActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        game.pause()
+        game.onPause()
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        game.resume()
+        game.onResume()
     }
 
 
