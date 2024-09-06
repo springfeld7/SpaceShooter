@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
  * Activity for the game screen.
  */
 class GameActivity : AppCompatActivity() {
-    private final val TAG = "GameActivity"
+    private val TAG = "GameActivity"
     lateinit var game : Game
 
     override fun onCreate(savedInstanceState: Bundle?) {
