@@ -20,6 +20,15 @@ class Player(game: Game) : Entity() {
         height = bitmap.height.toFloat()
     }
 
+    fun update(isBoosting: Boolean) {
+        super.update()
+        //apply drag
+        //apply gravity
+        //if isboosting apply acceleration
+        //integrate velocities
+        //clamp 
+    }
+
     private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
         val original = BitmapFactory.decodeResource(game.resources, resId)
         val ratio = PLAYER_HEIGHT.toFloat() / original.height

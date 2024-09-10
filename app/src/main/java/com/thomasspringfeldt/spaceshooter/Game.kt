@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.SystemClock.uptimeMillis
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import kotlin.random.Random
@@ -23,6 +24,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private val TAG = "Game"
     private lateinit var gameThread : Thread
     @Volatile private var isRunning : Boolean = false
+    @Volatile private var fingerDown = false
+    var isBoosting = false
 
     val player = Player(this)
     private val stars = ArrayList<Star>()
@@ -50,7 +53,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
      * Updates game state.
      */
     private fun update() {
-        player.update()
+        isBoosting = fingerDown
+        player.update(isBoosting)
         for(star in stars) { star.update() }
     }
 
@@ -67,6 +71,14 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
 
         holder.unlockCanvasAndPost(canvas)
 
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when(event?.action) {
+            MotionEvent.ACTION_DOWN -> fingerDown = true
+                MotionEvent.ACTION_UP -> fingerDown = false
+        }
+        return true
     }
 
     /**
