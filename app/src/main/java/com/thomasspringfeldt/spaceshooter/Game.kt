@@ -23,6 +23,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private val TAG = "Game"
     private lateinit var gameThread : Thread
     @Volatile private var isRunning : Boolean = false
+
+    val player = Player(this)
     private val stars = ArrayList<Star>()
 
     init {
@@ -48,6 +50,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
      * Updates game state.
      */
     private fun update() {
+        player.update()
         for(star in stars) { star.update() }
     }
 
@@ -58,7 +61,10 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
         val canvas = holder?.lockCanvas() ?: return
         canvas.drawColor(Color.BLUE)
         val paint = Paint()
+
         for(star in stars) { star.render(canvas, paint) }
+        player.render(canvas, paint)
+
         holder.unlockCanvasAndPost(canvas)
 
     }
