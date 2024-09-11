@@ -50,6 +50,11 @@ class Enemy(game: Game) : Entity() {
         centerY = RNG.nextInt((height / 2).toInt(), STAGE_HEIGHT - (height / 2).toInt()).toFloat()
     }
 
+    override fun onCollision(that: Entity) {
+        super.onCollision(that)
+        respawn()
+    }
+
     private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
         val original = BitmapFactory.decodeResource(game.resources, resId)
         val ratio = PLAYER_HEIGHT.toFloat() / original.height

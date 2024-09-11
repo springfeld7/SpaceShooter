@@ -27,6 +27,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     @Volatile private var isRunning : Boolean = false
     @Volatile private var fingerDown = false
     private var isBoosting = false
+    private var isGameOver = false
 
     private val player = Player(this)
     private val stars = ArrayList<Star>()
@@ -54,10 +55,32 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
      * Updates game state.
      */
     private fun update() {
+        if (isGameOver) {
+            return
+        }
         isBoosting = fingerDown
         player.update(isBoosting)
         for(star in stars) star.update(player.velX)
         for(enemy in enemies) enemy.update(player.velX)
+        checkCollisions()
+        checkGameOver()
+    }
+
+    private fun checkCollisions() {
+        for (enemy in enemies) {
+            if (isColliding(enemy, player)) {
+                enemy.onCollision(player)
+                player.onCollision(enemy)
+                //play sound effect
+            }
+
+        }
+    }
+
+    private fun checkGameOver() {
+       if (player.getHealth() <= 0) {
+           isGameOver = true
+       }
     }
 
     /**
@@ -114,5 +137,4 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
         isRunning = false
         gameThread.join()
     }
-
 }

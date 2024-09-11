@@ -15,6 +15,7 @@ const val ACCELERATION = 0.8f
 const val BOOST_FORCE = -0.8f
 const val MAX_VELOCITY = 20f
 const val VELOCITY_EPSILON = 0.01f
+const val PLAYER_DEFAULT_HEALTH = 3
 
 /**
  * The protagonist of the game.
@@ -23,6 +24,7 @@ const val VELOCITY_EPSILON = 0.01f
 class Player(game: Game) : Entity() {
 
     private val bitmap = createScaledBitmap(game, R.drawable.player)
+    private var health = PLAYER_DEFAULT_HEALTH
 
     init {
         width = bitmap.width.toFloat()
@@ -41,6 +43,11 @@ class Player(game: Game) : Entity() {
             bottom = STAGE_HEIGHT.toFloat()
             velY = 0f
         }
+    }
+
+    override fun render(canvas: Canvas, paint: Paint) {
+        super.render(canvas, paint)
+        canvas.drawBitmap(bitmap, x, y, paint)
     }
 
     private fun applyBoost() {
@@ -64,16 +71,20 @@ class Player(game: Game) : Entity() {
         if (velY.absoluteValue < VELOCITY_EPSILON) velY = 0f
     }
 
+    override fun onCollision(that: Entity) {
+        super.onCollision(that)
+        health--
+    }
+
+    fun getHealth() : Int {
+        return health
+    }
+
     private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
         val original = BitmapFactory.decodeResource(game.resources, resId)
         val ratio = PLAYER_HEIGHT.toFloat() / original.height
         val newH = (ratio * original.height).toInt()
         val newW = (ratio * original.width).toInt()
         return Bitmap.createScaledBitmap(original, newW, newH, true)
-    }
-
-    override fun render(canvas: Canvas, paint: Paint) {
-        super.render(canvas, paint)
-        canvas.drawBitmap(bitmap, x, y, paint)
     }
 }
