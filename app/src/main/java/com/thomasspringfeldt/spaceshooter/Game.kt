@@ -26,7 +26,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private lateinit var gameThread : Thread
     @Volatile private var isRunning : Boolean = false
     @Volatile private var fingerDown = false
-    var isBoosting = false
+    private var isBoosting = false
 
     private val player = Player(this)
     private val stars = ArrayList<Star>()
