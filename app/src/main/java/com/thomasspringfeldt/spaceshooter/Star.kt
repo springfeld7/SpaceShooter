@@ -13,16 +13,16 @@ class Star : Entity() {
 
     init {
         x = RNG.nextInt(GAME_WIDTH).toFloat()
-        y = RNG.nextInt(GAME_HEIGHT).toFloat()
+        y = RNG.nextInt(STAGE_HEIGHT).toFloat()
         velX = -6f
     }
 
-    override fun update() {
+    fun update(playerVelocity: Float) {
         super.update()
-        x += velX
+        x -= playerVelocity
         if (right < 0) {
             left = GAME_WIDTH.toFloat()
-            centerY = RNG.nextInt(GAME_HEIGHT).toFloat()
+            centerY = RNG.nextInt(STAGE_HEIGHT).toFloat()
         }
     }
 

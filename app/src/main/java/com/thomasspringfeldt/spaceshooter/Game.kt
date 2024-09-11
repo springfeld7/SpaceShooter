@@ -11,7 +11,7 @@ import android.view.SurfaceView
 import kotlin.random.Random
 
 const val GAME_WIDTH = 1280
-const val GAME_HEIGHT = 672
+const val STAGE_HEIGHT = 672
 const val STAR_COUNT = 50
 var RNG = Random(uptimeMillis())
 
@@ -32,7 +32,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
 
     init {
         holder?.addCallback(this)
-        holder?.setFixedSize(GAME_WIDTH, GAME_HEIGHT)
+        holder?.setFixedSize(GAME_WIDTH, STAGE_HEIGHT)
         for(i in 0 until STAR_COUNT) {
             stars.add(Star())
         }
@@ -55,7 +55,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private fun update() {
         isBoosting = fingerDown
         player.update(isBoosting)
-        for(star in stars) { star.update() }
+        for(star in stars) { star.update(player.velX) }
     }
 
     /**
