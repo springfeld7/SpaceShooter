@@ -12,7 +12,7 @@ class Star : Entity() {
     private val radius = 3f
 
     init {
-        x = RNG.nextInt(GAME_WIDTH).toFloat()
+        x = RNG.nextInt(STAGE_WIDTH).toFloat()
         y = RNG.nextInt(STAGE_HEIGHT).toFloat()
         velX = -6f
     }
@@ -21,7 +21,7 @@ class Star : Entity() {
         super.update()
         x -= playerVelocity
         if (right < 0) {
-            left = GAME_WIDTH.toFloat()
+            left = STAGE_WIDTH.toFloat()
             centerY = RNG.nextInt(STAGE_HEIGHT).toFloat()
         }
     }

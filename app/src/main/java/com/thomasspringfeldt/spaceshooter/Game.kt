@@ -10,9 +10,10 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import kotlin.random.Random
 
-const val GAME_WIDTH = 1280
+const val STAGE_WIDTH = 1280
 const val STAGE_HEIGHT = 672
 const val STAR_COUNT = 50
+const val ENEMY_COUNT = 8
 var RNG = Random(uptimeMillis())
 
 /**
@@ -27,15 +28,15 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     @Volatile private var fingerDown = false
     var isBoosting = false
 
-    val player = Player(this)
+    private val player = Player(this)
     private val stars = ArrayList<Star>()
+    private val enemies = ArrayList<Enemy>()
 
     init {
         holder?.addCallback(this)
-        holder?.setFixedSize(GAME_WIDTH, STAGE_HEIGHT)
-        for(i in 0 until STAR_COUNT) {
-            stars.add(Star())
-        }
+        holder?.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT)
+        for(i in 0 until STAR_COUNT) stars.add(Star())
+        for(i in 0 until ENEMY_COUNT) enemies.add(Enemy(this))
     }
 
     /**
@@ -55,7 +56,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private fun update() {
         isBoosting = fingerDown
         player.update(isBoosting)
-        for(star in stars) { star.update(player.velX) }
+        for(star in stars) star.update(player.velX)
+        for(enemy in enemies) enemy.update(player.velX)
     }
 
     /**
@@ -66,7 +68,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
         canvas.drawColor(Color.BLUE)
         val paint = Paint()
 
-        for(star in stars) { star.render(canvas, paint) }
+        for(star in stars) star.render(canvas, paint)
+        for(enemy in enemies) enemy.render(canvas, paint)
         player.render(canvas, paint)
 
         holder.unlockCanvasAndPost(canvas)
@@ -103,7 +106,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        Log.d(TAG, "surface changed, width: $width, height: $height")
+        Log.d(TAG, "KOKKAsurface changed, width: $width, height: $height")
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
