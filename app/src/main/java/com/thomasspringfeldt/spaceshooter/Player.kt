@@ -25,11 +25,12 @@ class Player(game: Game) : Entity() {
 
     private val bitmap = createScaledBitmap(game, R.drawable.player)
     private var health = PLAYER_DEFAULT_HEALTH
+    private var distanceTraveled = 0f
 
     init {
         width = bitmap.width.toFloat()
         height = bitmap.height.toFloat()
-        x = PLAYER_POSX.toFloat()
+        respawn()
     }
 
     fun update(isBoosting: Boolean) {
@@ -39,6 +40,7 @@ class Player(game: Game) : Entity() {
         if (isBoosting) applyBoost()
 
         y += velY
+        distanceTraveled += velX
         if (bottom > STAGE_HEIGHT) {
             bottom = STAGE_HEIGHT.toFloat()
             velY = 0f
@@ -76,8 +78,21 @@ class Player(game: Game) : Entity() {
         health--
     }
 
+    fun respawn() {
+        x = PLAYER_POSX.toFloat()
+        health = PLAYER_DEFAULT_HEALTH
+        centerY = STAGE_HEIGHT / 2.0f
+        velX = 0f
+        velY = 0f
+        distanceTraveled = 0f
+    }
+
     fun getHealth() : Int {
         return health
+    }
+
+    fun getDistanceTraveled() : Float {
+        return distanceTraveled
     }
 
     private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {

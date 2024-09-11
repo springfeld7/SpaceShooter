@@ -1,6 +1,7 @@
 package com.thomasspringfeldt.spaceshooter
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.SystemClock.uptimeMillis
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import kotlin.math.round
 import kotlin.random.Random
 
 const val STAGE_WIDTH = 1280
@@ -94,17 +96,48 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
         for(star in stars) star.render(canvas, paint)
         for(enemy in enemies) enemy.render(canvas, paint)
         player.render(canvas, paint)
+        renderHud(canvas, paint)
 
         holder.unlockCanvasAndPost(canvas)
+
+    }
+
+    private fun renderHud(canvas: Canvas, paint: Paint) {
+        val textSize = 48f
+        val textPosition = 10f
+        paint.color = Color.WHITE
+        paint.textSize = textSize
+        paint.textAlign = Paint.Align.LEFT
+        if (!isGameOver) {
+            canvas.drawText("Health: ${player.getHealth()}", textPosition, textSize, paint)
+            canvas.drawText("Distance: ${round(player.getDistanceTraveled())}", textPosition, textSize * 2, paint)
+        } else {
+            val centerX = STAGE_WIDTH / 2.0f
+            val centerY = STAGE_HEIGHT / 2.0f
+            paint.textAlign = Paint.Align.CENTER
+            canvas.drawText("GAME OVER", centerX, centerY, paint)
+            canvas.drawText("Press to restart", centerX, centerY + textSize, paint)
+        }
 
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> fingerDown = true
-                MotionEvent.ACTION_UP -> fingerDown = false
+            MotionEvent.ACTION_UP -> {
+                fingerDown = false
+                if (isGameOver) {
+                    restart()
+                }
+            }
         }
         return true
+    }
+
+    private fun restart() {
+        for(enemy in enemies) enemy.respawn()
+        player.respawn()
+        isGameOver = false
     }
 
     /**
