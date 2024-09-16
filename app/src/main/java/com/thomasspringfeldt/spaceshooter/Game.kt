@@ -16,6 +16,8 @@ const val STAGE_WIDTH = 1280
 const val STAGE_HEIGHT = 672
 const val STAR_COUNT = 50
 const val ENEMY_COUNT = 8
+const val PREFS = "com.thomasspringfeldt.spaceshooter"
+const val LONGEST_DIST = "longest_distance"
 var RNG = Random(uptimeMillis())
 
 /**
@@ -31,17 +33,23 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     private var isBoosting = false
     private var isGameOver = false
 
+    private var maxDistancedTraveled = 0.0f
+    private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+    private val editor = prefs.edit()
+
     private val player = Player(this)
     private val stars = ArrayList<Star>()
     private val enemies = ArrayList<Enemy>()
 
     private var jukebox = Jukebox(context.assets)
 
+
     init {
         holder?.addCallback(this)
         holder?.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT)
         for(i in 0 until STAR_COUNT) stars.add(Star())
         for(i in 0 until ENEMY_COUNT) enemies.add(Enemy(this))
+        maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
     }
 
     /**
@@ -82,6 +90,10 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private fun checkGameOver() {
        if (player.getHealth() <= 0) {
+           if (player.getDistanceTraveled() > maxDistancedTraveled) {
+               editor.putFloat(LONGEST_DIST, player.getDistanceTraveled())
+               editor.apply()
+           }
            isGameOver = true
        }
     }
@@ -138,6 +150,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     private fun restart() {
         for(enemy in enemies) enemy.respawn()
         player.respawn()
+        maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         isGameOver = false
     }
 
