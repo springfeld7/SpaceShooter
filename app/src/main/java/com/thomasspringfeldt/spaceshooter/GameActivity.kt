@@ -29,5 +29,8 @@ class GameActivity : AppCompatActivity() {
         game.onResume()
     }
 
-
+    override fun onDestroy() {
+        game.onDestroy()
+        super.onDestroy()
+    }
 }

@@ -22,9 +22,9 @@ var RNG = Random(uptimeMillis())
  * Game engine for the Space Shooter.
  * @author Thomas Springfeldt
  */
-class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Callback {
+class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Callback {
 
-    private val TAG = "Game"
+    private val tag = "Game"
     private lateinit var gameThread : Thread
     @Volatile private var isRunning : Boolean = false
     @Volatile private var fingerDown = false
@@ -34,6 +34,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private val player = Player(this)
     private val stars = ArrayList<Star>()
     private val enemies = ArrayList<Enemy>()
+
+    private var jukebox = Jukebox(context.assets)
 
     init {
         holder?.addCallback(this)
@@ -46,7 +48,7 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
      * Game loop.
      */
     override fun run() {
-        Log.d(TAG, "run()")
+        Log.d(tag, "run()")
         while(isRunning) {
             update()
             render()
@@ -73,9 +75,8 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
             if (isColliding(enemy, player)) {
                 enemy.onCollision(player)
                 player.onCollision(enemy)
-                //play sound effect
+                jukebox.play(SFX.crash)
             }
-
         }
     }
 
@@ -144,29 +145,34 @@ class Game(context: Context?) : SurfaceView(context), Runnable, SurfaceHolder.Ca
      * Stops the game from processing.
      */
     fun onPause() {
-        Log.d(TAG, "onPause")
+        Log.d(tag, "onPause")
     }
 
     /**
      * Resumes the processing of the game.
      */
     fun onResume() {
-        Log.d(TAG, "onResume")
+        Log.d(tag, "onResume")
+    }
+
+
+    fun onDestroy() {
+        jukebox.release()
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        Log.d(TAG, "surface created")
+        Log.d(tag, "surface created")
         isRunning = true
         gameThread = Thread(this)
         gameThread.start()
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        Log.d(TAG, "KOKKAsurface changed, width: $width, height: $height")
+        Log.d(tag, "KOKKAsurface changed, width: $width, height: $height")
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        Log.d(TAG, "surface destroyed")
+        Log.d(tag, "surface destroyed")
         isRunning = false
         gameThread.join()
     }
