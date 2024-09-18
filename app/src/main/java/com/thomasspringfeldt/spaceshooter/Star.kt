@@ -4,25 +4,33 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 
+const val SMALL_STAR_RADIUS = 1
+const val MEDIUM_STAR_RADIUS = 3
+const val LARGE_STAR_RADIUS = 5
+
 /**
- * Star game entity.
+ * Star for the game screen background.
  */
 class Star : Entity() {
 
-    private val radius = 3f
+    private var radius: Float
+    private val starSizes: IntArray =
+        intArrayOf(SMALL_STAR_RADIUS, MEDIUM_STAR_RADIUS, LARGE_STAR_RADIUS)
 
     init {
         x = RNG.nextInt(STAGE_WIDTH).toFloat()
         y = RNG.nextInt(STAGE_HEIGHT).toFloat()
+        radius = getRandomStarSize()
         velX = -6f
     }
 
     fun update(playerVelocity: Float) {
         super.update()
-        x -= playerVelocity
+        x -= playerVelocity + radius
         if (right < 0) {
             left = STAGE_WIDTH.toFloat()
             centerY = RNG.nextInt(STAGE_HEIGHT).toFloat()
+            radius = getRandomStarSize()
         }
     }
 
@@ -30,6 +38,11 @@ class Star : Entity() {
         super.render(canvas, paint)
         paint.color = Color.WHITE
         canvas.drawCircle(x, y, radius, paint)
+    }
+
+    private fun getRandomStarSize() : Float {
+
+        return starSizes[RNG.nextInt(starSizes.size)].toFloat()
     }
 
     override fun onCollision(that: Entity) {
