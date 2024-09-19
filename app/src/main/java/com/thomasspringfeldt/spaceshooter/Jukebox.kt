@@ -9,6 +9,10 @@ import java.io.IOException
 
 object SFX{
     var crash = 0
+    var death = 0
+    var powerup = 0
+    var shot = 0
+    var start_game = 0
 }
 const val MAX_STREAMS = 3
 
@@ -26,6 +30,10 @@ class Jukebox(private val assetManager: AssetManager) {
             .build()
         Log.d(tag, "soundpool created!")
         SFX.crash = loadSound("crash.wav")
+        SFX.death = loadSound("death.wav")
+        SFX.powerup = loadSound("powerup.wav")
+        SFX.shot = loadSound("shot.wav")
+        SFX.start_game = loadSound("start_game.wav")
     }
 
     private fun loadSound(fileName: String): Int{

@@ -50,6 +50,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for(i in 0 until STAR_COUNT) stars.add(Star())
         for(i in 0 until ENEMY_COUNT) enemies.add(Enemy(this))
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
+        jukebox.play(SFX.start_game)
     }
 
     /**
@@ -90,6 +91,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private fun checkGameOver() {
        if (player.getHealth() <= 0) {
+           jukebox.play(SFX.death)
            if (player.getDistanceTraveled() > maxDistancedTraveled) {
                editor.putFloat(LONGEST_DIST, player.getDistanceTraveled())
                editor.apply()
