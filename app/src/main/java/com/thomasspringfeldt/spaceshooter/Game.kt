@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Build
 import android.os.SystemClock.uptimeMillis
 import android.util.Log
 import android.view.MotionEvent
+import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import kotlin.math.round
@@ -18,6 +20,7 @@ const val STAR_COUNT = 50
 const val ENEMY_COUNT = 8
 const val PREFS = "com.thomasspringfeldt.spaceshooter"
 const val LONGEST_DIST = "longest_distance"
+const val TARGET_FPS = 60f
 var RNG = Random(uptimeMillis())
 
 /**
@@ -177,6 +180,9 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         Log.d(tag, "surface created")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            holder.surface.setFrameRate(TARGET_FPS, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT)
+        }
         isRunning = true
         gameThread = Thread(this)
         gameThread.start()
