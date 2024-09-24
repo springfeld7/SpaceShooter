@@ -1,5 +1,6 @@
 package com.thomasspringfeldt.spaceshooter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -42,7 +43,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private val player = Player(this)
     private val stars = ArrayList<Star>()
-    private val enemies = ArrayList<Enemy>()
+    private val enemies = ArrayList<SimpleEnemy>()
 
     private var jukebox = Jukebox(context.assets)
 
@@ -51,7 +52,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         holder?.addCallback(this)
         holder?.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT)
         for(i in 0 until STAR_COUNT) stars.add(Star())
-        for(i in 0 until ENEMY_COUNT) enemies.add(Enemy(this))
+        for(i in 0 until ENEMY_COUNT) enemies.add(SimpleEnemy(this))
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
     }
@@ -139,6 +140,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action) {
             MotionEvent.ACTION_DOWN -> fingerDown = true
