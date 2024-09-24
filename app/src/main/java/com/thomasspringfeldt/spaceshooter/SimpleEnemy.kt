@@ -11,7 +11,7 @@ import android.graphics.Paint
  * The enemy of the game.
  * @author Thomas Springfeldt
  */
-class Enemy(game: Game) : Entity() {
+class SimpleEnemy(game: Game) : Entity() {
 
     private val bitmap : Bitmap
 
@@ -64,7 +64,7 @@ class Enemy(game: Game) : Entity() {
         return flipVertically(scaled)
     }
 
-    fun flip(src: Bitmap, vertically: Boolean) : Bitmap {
+    private fun flip(src: Bitmap, vertically: Boolean) : Bitmap {
         val matrix = Matrix()
         val cx = src.width / 2f
         val cy = src.height / 2f
@@ -76,6 +76,6 @@ class Enemy(game: Game) : Entity() {
         return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
     }
 
-    fun flipVertically(src: Bitmap) = flip(src, vertically = true)
-    fun flipHorizontally(src: Bitmap) = flip(src, vertically = false)
+    private fun flipVertically(src: Bitmap) = flip(src, vertically = true)
+    private fun flipHorizontally(src: Bitmap) = flip(src, vertically = false)
 }
