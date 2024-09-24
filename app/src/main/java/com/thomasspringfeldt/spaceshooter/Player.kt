@@ -17,6 +17,7 @@ const val MAX_VELOCITY = 15f
 const val VELOCITY_EPSILON = 0.01f
 const val PLAYER_DEFAULT_HEALTH = 3
 const val INVINCIBILITY_WINDOW = 1500
+const val BLINK_LENGTH = 150
 
 /**
  * The protagonist of the game.
@@ -27,7 +28,9 @@ class Player(game: Game) : Entity() {
     private val bitmap = createScaledBitmap(game, R.drawable.player)
     private var health = PLAYER_DEFAULT_HEALTH
     private var invincible = false
-    private var invincibilityCooldown : Long = 0
+    private var invincibilityTimer : Long = 0
+    private var blink = false
+    private var blinkTimer : Long = 0
     private var distanceTraveled = 0f
 
     init {
@@ -62,7 +65,15 @@ class Player(game: Game) : Entity() {
 
     override fun render(canvas: Canvas, paint: Paint) {
         super.render(canvas, paint)
-        canvas.drawBitmap(bitmap, x, y, paint)
+        if (!invincible) {
+            canvas.drawBitmap(bitmap, x, y, paint)
+        } else {
+            if (blink) else canvas.drawBitmap(bitmap, x, y, paint)
+            if (System.currentTimeMillis() - blinkTimer >= 150) {
+                flipBlink()
+                blinkTimer = System.currentTimeMillis()
+            }
+        }
     }
 
     private fun applyBoost() {
@@ -89,7 +100,9 @@ class Player(game: Game) : Entity() {
     override fun onCollision(that: Entity) {
         super.onCollision(that)
         invincible = true
-        invincibilityCooldown = System.currentTimeMillis()
+        invincibilityTimer = System.currentTimeMillis()
+        blink = true
+        blinkTimer = System.currentTimeMillis()
         health--
     }
 
@@ -108,7 +121,11 @@ class Player(game: Game) : Entity() {
 
     fun flipInvincible() { invincible = !invincible }
 
-    fun getInvincibilityCooldown() : Long { return invincibilityCooldown }
+    fun getInvincibilityTimer() : Long { return invincibilityTimer }
+
+    fun getBlinkTimer() : Long { return blinkTimer }
+
+    fun flipBlink() { blink = !blink }
 
     fun getDistanceTraveled() : Float { return distanceTraveled }
 

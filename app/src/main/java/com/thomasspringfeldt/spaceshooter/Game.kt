@@ -82,8 +82,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         if (!player.isInvincible()) {
             checkCollisions()
         } else {
-            Log.d(tag, "MJAU: ${System.currentTimeMillis() - player.getInvincibilityCooldown()}\n")
-            if (System.currentTimeMillis() - player.getInvincibilityCooldown() >= INVINCIBILITY_WINDOW) {
+            if (System.currentTimeMillis() - player.getInvincibilityTimer() >= INVINCIBILITY_WINDOW) {
                 player.flipInvincible()
             }
         }
