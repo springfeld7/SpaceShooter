@@ -18,7 +18,7 @@ class SimpleEnemy(game: Game) : Enemy() {
 
     init {
         velX = SIMPLE_ENEMY_VELOCITY
-        var id = R.drawable.ship_1
+        val id = R.drawable.ship_1
         bitmap = createScaledBitmap(game, id)
         width = bitmap.width.toFloat()
         height = bitmap.height.toFloat()

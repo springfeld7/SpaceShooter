@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
-import java.sql.Time
 import kotlin.math.sin
 
 const val SINE_ENEMY_VELOCITY = 8f
@@ -20,7 +19,7 @@ class SineEnemy(game: Game) : Enemy() {
 
     init {
         velX = SINE_ENEMY_VELOCITY
-        var id = R.drawable.ship_2
+        val id = R.drawable.ship_2
         bitmap = createScaledBitmap(game, id)
         width = bitmap.width.toFloat()
         height = bitmap.height.toFloat()
