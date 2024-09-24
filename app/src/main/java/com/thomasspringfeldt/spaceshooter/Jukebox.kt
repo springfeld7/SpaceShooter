@@ -9,6 +9,7 @@ import java.io.IOException
 
 object SFX{
     var crash = 0
+    var boost = 0
     var death = 0
     var powerup = 0
     var shot_player = 0
@@ -32,6 +33,7 @@ class Jukebox(private val assetManager: AssetManager) {
             .build()
         Log.d(tag, "soundpool created!")
         SFX.crash = loadSound("crash.wav")
+        SFX.boost = loadSound("boost.wav")
         SFX.death = loadSound("death.wav")
         SFX.powerup = loadSound("powerup.wav")
         SFX.shot_player = loadSound("shot_player.wav")
