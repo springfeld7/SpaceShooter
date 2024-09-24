@@ -16,6 +16,7 @@ const val BOOST_FORCE = -0.8f
 const val MAX_VELOCITY = 15f
 const val VELOCITY_EPSILON = 0.01f
 const val PLAYER_DEFAULT_HEALTH = 3
+const val INVINCIBILITY_WINDOW = 1500
 
 /**
  * The protagonist of the game.
@@ -25,6 +26,8 @@ class Player(game: Game) : Entity() {
 
     private val bitmap = createScaledBitmap(game, R.drawable.player)
     private var health = PLAYER_DEFAULT_HEALTH
+    private var invincible = false
+    private var invincibilityCooldown : Long = 0
     private var distanceTraveled = 0f
 
     init {
@@ -85,6 +88,8 @@ class Player(game: Game) : Entity() {
 
     override fun onCollision(that: Entity) {
         super.onCollision(that)
+        invincible = true
+        invincibilityCooldown = System.currentTimeMillis()
         health--
     }
 
@@ -97,13 +102,15 @@ class Player(game: Game) : Entity() {
         distanceTraveled = 0f
     }
 
-    fun getHealth() : Int {
-        return health
-    }
+    fun getHealth() : Int { return health }
 
-    fun getDistanceTraveled() : Float {
-        return distanceTraveled
-    }
+    fun isInvincible() : Boolean { return invincible }
+
+    fun flipInvincible() { invincible = !invincible }
+
+    fun getInvincibilityCooldown() : Long { return invincibilityCooldown }
+
+    fun getDistanceTraveled() : Float { return distanceTraveled }
 
     private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
         val original = BitmapFactory.decodeResource(game.resources, resId)

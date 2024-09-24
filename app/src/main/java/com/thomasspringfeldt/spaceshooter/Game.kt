@@ -79,16 +79,23 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         player.update(isBoosting, jukebox)
         for(star in stars) star.update(player.velX)
         for(enemy in enemies) enemy.update(player.velX)
-        checkCollisions()
+        if (!player.isInvincible()) {
+            checkCollisions()
+        } else {
+            Log.d(tag, "MJAU: ${System.currentTimeMillis() - player.getInvincibilityCooldown()}\n")
+            if (System.currentTimeMillis() - player.getInvincibilityCooldown() >= INVINCIBILITY_WINDOW) {
+                player.flipInvincible()
+            }
+        }
         checkGameOver()
     }
 
     private fun checkCollisions() {
         for (enemy in enemies) {
             if (isColliding(enemy, player)) {
+                jukebox.play(SFX.crash)
                 enemy.onCollision(player)
                 player.onCollision(enemy)
-                jukebox.play(SFX.crash)
             }
         }
     }
