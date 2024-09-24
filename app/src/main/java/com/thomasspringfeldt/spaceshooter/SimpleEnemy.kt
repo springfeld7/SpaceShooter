@@ -11,7 +11,7 @@ import android.graphics.Paint
  * The enemy of the game.
  * @author Thomas Springfeldt
  */
-class SimpleEnemy(game: Game) : Entity() {
+class SimpleEnemy(game: Game) : Enemy() {
 
     private val bitmap : Bitmap
 
@@ -31,7 +31,7 @@ class SimpleEnemy(game: Game) : Entity() {
         respawn()
     }
 
-    fun update(playerVelocity: Float) {
+    override fun update(playerVelocity: Float) {
         super.update()
         x -= playerVelocity
         if (right < 0) {
@@ -45,7 +45,7 @@ class SimpleEnemy(game: Game) : Entity() {
         canvas.drawBitmap(bitmap, x, y, paint)
     }
 
-    fun respawn() {
+    override fun respawn() {
         left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH)
         centerY = RNG.nextInt((height / 2).toInt(), STAGE_HEIGHT - (height / 2).toInt()).toFloat()
     }

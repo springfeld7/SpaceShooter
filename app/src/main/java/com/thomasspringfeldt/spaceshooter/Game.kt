@@ -43,7 +43,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private val player = Player(this)
     private val stars = ArrayList<Star>()
-    private val enemies = ArrayList<SimpleEnemy>()
+    private val enemies = ArrayList<Enemy>()
 
     private var jukebox = Jukebox(context.assets)
 
@@ -52,7 +52,8 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         holder?.addCallback(this)
         holder?.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT)
         for(i in 0 until STAR_COUNT) stars.add(Star())
-        for(i in 0 until ENEMY_COUNT) enemies.add(SimpleEnemy(this))
+        for(i in 0 until ENEMY_COUNT/2) enemies.add(SimpleEnemy(this))
+        for(i in 4 until ENEMY_COUNT) enemies.add(SineEnemy(this))
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
     }
