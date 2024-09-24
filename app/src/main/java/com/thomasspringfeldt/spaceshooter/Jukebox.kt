@@ -11,8 +11,10 @@ object SFX{
     var crash = 0
     var death = 0
     var powerup = 0
-    var shot = 0
+    var shot_player = 0
+    var shot_enemy = 0
     var start_game = 0
+    var game_over = 0
 }
 const val MAX_STREAMS = 3
 
@@ -32,8 +34,10 @@ class Jukebox(private val assetManager: AssetManager) {
         SFX.crash = loadSound("crash.wav")
         SFX.death = loadSound("death.wav")
         SFX.powerup = loadSound("powerup.wav")
-        SFX.shot = loadSound("shot.wav")
+        SFX.shot_player = loadSound("shot_player.wav")
+        SFX.shot_enemy = loadSound("shot_enemy.wav")
         SFX.start_game = loadSound("start_game.wav")
+        SFX.game_over = loadSound("game_over.wav")
     }
 
     private fun loadSound(fileName: String): Int{
