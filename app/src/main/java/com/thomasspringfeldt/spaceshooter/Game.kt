@@ -47,7 +47,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private var jukebox = Jukebox(context.assets)
 
-
     init {
         holder?.addCallback(this)
         holder?.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT)
@@ -175,7 +174,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     fun onResume() {
         Log.d(tag, "onResume")
     }
-
 
     fun onDestroy() {
         jukebox.release()
