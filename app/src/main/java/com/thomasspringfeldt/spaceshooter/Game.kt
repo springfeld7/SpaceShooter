@@ -94,7 +94,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private fun checkGameOver() {
        if (player.getHealth() <= 0) {
-           jukebox.play(SFX.death)
+           jukebox.play(SFX.game_over)
            if (player.getDistanceTraveled() > maxDistancedTraveled) {
                editor.putFloat(LONGEST_DIST, player.getDistanceTraveled())
                editor.apply()
