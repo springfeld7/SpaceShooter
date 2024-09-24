@@ -9,7 +9,7 @@ import kotlin.math.absoluteValue
 
 const val PLAYER_HEIGHT = 70
 const val PLAYER_POSX = 30
-const val GRAVITY = 0.5f
+const val GRAVITY = 0.25f
 const val DRAG = 0.97f
 const val ACCELERATION = 0.8f
 const val BOOST_FORCE = -0.8f
@@ -33,16 +33,26 @@ class Player(game: Game) : Entity() {
         respawn()
     }
 
-    fun update(isBoosting: Boolean) {
+    fun update(isBoosting: Boolean, jukebox: Jukebox) {
         super.update()
+
         applyDrag()
         applyGravity()
-        if (isBoosting) applyBoost()
+        if (isBoosting) {
+            applyBoost()
+            jukebox.play(SFX.boost)
+        }
 
         y += velY
         distanceTraveled += velX
+
+        //make sure the player can't leave screen
         if (bottom > STAGE_HEIGHT) {
             bottom = STAGE_HEIGHT.toFloat()
+            velY = 0f
+        }
+        if (top < 0) {
+            top = 0f
             velY = 0f
         }
     }

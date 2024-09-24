@@ -76,7 +76,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
             return
         }
         isBoosting = fingerDown
-        player.update(isBoosting)
+        player.update(isBoosting, jukebox)
         for(star in stars) star.update(player.velX)
         for(enemy in enemies) enemy.update(player.velX)
         checkCollisions()
