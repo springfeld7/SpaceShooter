@@ -13,7 +13,7 @@ const val GRAVITY = 0.5f
 const val DRAG = 0.97f
 const val ACCELERATION = 0.8f
 const val BOOST_FORCE = -0.8f
-const val MAX_VELOCITY = 20f
+const val MAX_VELOCITY = 15f
 const val VELOCITY_EPSILON = 0.01f
 const val PLAYER_DEFAULT_HEALTH = 3
 

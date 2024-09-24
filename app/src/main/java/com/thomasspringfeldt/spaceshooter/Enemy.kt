@@ -7,4 +7,5 @@ package com.thomasspringfeldt.spaceshooter
 abstract class Enemy : Entity() {
     abstract fun update(velX: Float)
     abstract fun respawn()
+    abstract fun move(playerVelocity: Float)
 }

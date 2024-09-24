@@ -6,9 +6,10 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 
+const val SINE_ENEMY_VELOCITY = 1f
 
 /**
- * The enemy of the game.
+ * Simple enemy moving in a sine wave pattern.
  * @author Thomas Springfeldt
  */
 class SineEnemy(game: Game) : Enemy() {
@@ -16,15 +17,8 @@ class SineEnemy(game: Game) : Enemy() {
     private val bitmap : Bitmap
 
     init {
-        var id = R.drawable.ship_1
-        when(RNG.nextInt(6)) {
-            0 -> id = R.drawable.ship_1
-            1 -> id = R.drawable.ship_2
-            2 -> id = R.drawable.ship_3
-            3 -> id = R.drawable.ship_4
-            4 -> id = R.drawable.ship_5
-            5 -> id = R.drawable.ship_6
-        }
+        velX = -SINE_ENEMY_VELOCITY
+        var id = R.drawable.ship_2
         bitmap = createScaledBitmap(game, id)
         width = bitmap.width.toFloat()
         height = bitmap.height.toFloat()
@@ -33,15 +27,20 @@ class SineEnemy(game: Game) : Enemy() {
 
     override fun update(playerVelocity: Float) {
         super.update()
-        x -= playerVelocity
-        if (right < 0) {
-            respawn()
-        }
+        move(playerVelocity)
     }
 
     override fun render(canvas: Canvas, paint: Paint) {
         super.render(canvas, paint)
         canvas.drawBitmap(bitmap, x, y, paint)
+    }
+
+    override fun move(playerVelocity: Float) {
+        x -= playerVelocity + 3f
+
+        if (right < 0) {
+            respawn()
+        }
     }
 
     override fun respawn() {

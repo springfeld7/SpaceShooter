@@ -6,9 +6,10 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 
+const val SIMPLE_ENEMY_VELOCITY = 3f
 
 /**
- * The enemy of the game.
+ * The simplest enemy of the game.
  * @author Thomas Springfeldt
  */
 class SimpleEnemy(game: Game) : Enemy() {
@@ -16,15 +17,8 @@ class SimpleEnemy(game: Game) : Enemy() {
     private val bitmap : Bitmap
 
     init {
+        velX = -SIMPLE_ENEMY_VELOCITY
         var id = R.drawable.ship_1
-        when(RNG.nextInt(6)) {
-            0 -> id = R.drawable.ship_1
-            1 -> id = R.drawable.ship_2
-            2 -> id = R.drawable.ship_3
-            3 -> id = R.drawable.ship_4
-            4 -> id = R.drawable.ship_5
-            5 -> id = R.drawable.ship_6
-        }
         bitmap = createScaledBitmap(game, id)
         width = bitmap.width.toFloat()
         height = bitmap.height.toFloat()
@@ -33,16 +27,20 @@ class SimpleEnemy(game: Game) : Enemy() {
 
     override fun update(playerVelocity: Float) {
         super.update()
-        x -= playerVelocity
-        if (right < 0) {
-            respawn()
-        }
-    }
+        move(playerVelocity)
 
+    }
 
     override fun render(canvas: Canvas, paint: Paint) {
         super.render(canvas, paint)
         canvas.drawBitmap(bitmap, x, y, paint)
+    }
+
+    override fun move(playerVelocity: Float) {
+        x -= playerVelocity + 1
+        if (right < 0) {
+            respawn()
+        }
     }
 
     override fun respawn() {
