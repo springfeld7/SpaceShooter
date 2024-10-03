@@ -7,7 +7,7 @@ import android.graphics.Paint
 import androidx.core.math.MathUtils.clamp
 import kotlin.math.absoluteValue
 
-const val PLAYER_HEIGHT = 70
+const val PLAYER_HEIGHT = 50
 const val PLAYER_POSX = 30
 const val GRAVITY = 0.25f
 const val DRAG = 0.97f

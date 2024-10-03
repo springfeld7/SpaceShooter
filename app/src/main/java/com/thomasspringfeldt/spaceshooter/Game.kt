@@ -41,6 +41,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     private val player = Player(this)
     private val stars = ArrayList<Star>()
     private val enemies = ArrayList<Enemy>()
+    private val powerups = ArrayList<PowerUp>()
 
     private var jukebox = Jukebox(context.assets)
 
@@ -50,6 +51,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for(i in 0 until STAR_COUNT) stars.add(Star())
         for(i in 0 until ENEMY_COUNT/2) enemies.add(SimpleEnemy(this))
         for(i in 4 until ENEMY_COUNT) enemies.add(SineEnemy(this))
+        powerups.add(InvincibilityPowerUp(this, player))
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
     }
@@ -73,8 +75,10 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         }
         isBoosting = fingerDown
         player.update(isBoosting, jukebox)
-        for(star in stars) star.update(player.velX)
-        for(enemy in enemies) enemy.update(player.velX)
+        for (star in stars) star.update(player.velX)
+        for (enemy in enemies) enemy.update(player.velX)
+        for (powerup in powerups) powerup.update(player.velX)
+        checkPwrUpCollisions()
         if (!player.isInvincible()) {
             checkCollisions()
         } else {
@@ -91,6 +95,15 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
                 jukebox.play(SFX.crash)
                 enemy.onCollision(player)
                 player.onCollision(enemy)
+            }
+        }
+    }
+
+    private fun checkPwrUpCollisions() {
+        for (powerup in powerups) {
+            if (isColliding(powerup, player)) {
+                jukebox.play(SFX.powerup)
+                powerup.onCollision(player)
             }
         }
     }
@@ -114,8 +127,9 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         canvas.drawColor(Color.BLUE)
         val paint = Paint()
 
-        for(star in stars) star.render(canvas, paint)
-        for(enemy in enemies) enemy.render(canvas, paint)
+        for (star in stars) star.render(canvas, paint)
+        for (enemy in enemies) enemy.render(canvas, paint)
+        for (powerup in powerups) powerup.render(canvas, paint)
         player.render(canvas, paint)
         renderHud(canvas, paint)
 
