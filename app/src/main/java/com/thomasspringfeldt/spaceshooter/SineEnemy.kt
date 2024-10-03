@@ -1,9 +1,7 @@
 package com.thomasspringfeldt.spaceshooter
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Matrix
 import android.graphics.Paint
 import kotlin.math.sin
 
@@ -19,7 +17,7 @@ class SineEnemy(game: Game) : Enemy() {
 
     init {
         velX = SINE_ENEMY_VELOCITY
-        val id = R.drawable.ship_2
+        val id = R.drawable.sine_enemy
         bitmap = createScaledBitmap(game, id)
         width = bitmap.width.toFloat()
         height = bitmap.height.toFloat()
@@ -54,28 +52,4 @@ class SineEnemy(game: Game) : Enemy() {
         super.onCollision(that)
         respawn()
     }
-
-    private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
-        val original = BitmapFactory.decodeResource(game.resources, resId)
-        val ratio = PLAYER_HEIGHT.toFloat() / original.height
-        val newH = (ratio * original.height).toInt()
-        val newW = (ratio * original.width).toInt()
-        val scaled = Bitmap.createScaledBitmap(original, newW, newH, true)
-        return flipVertically(scaled)
-    }
-
-    private fun flip(src: Bitmap, vertically: Boolean) : Bitmap {
-        val matrix = Matrix()
-        val cx = src.width / 2f
-        val cy = src.height / 2f
-        if (vertically) {
-            matrix.postScale(-1f, 1f, cx, cy)
-        } else {
-            matrix.postScale(1f, -1f, cx, cy)
-        }
-        return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
-    }
-
-    private fun flipVertically(src: Bitmap) = flip(src, vertically = true)
-    private fun flipHorizontally(src: Bitmap) = flip(src, vertically = false)
 }
