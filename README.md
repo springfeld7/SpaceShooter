@@ -20,3 +20,11 @@ by Ulf Benjaminssson).
 ---
 ## Pass With Distinction Achievements:
 
+
+
+---
+## Asset Credits:
+Background picture on start screen, https://www.flickr.com/photos/galet09/15447326299
+Ship pictures, https://opengameart.org/content/space-ships-side-scroller
+Game sounds from https://jfxr.frozenfractal.com/#
+game_over.wav by Thomas Springfeldt
