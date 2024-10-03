@@ -25,6 +25,7 @@ by Ulf Benjaminssson).
 ---
 ## Asset Credits:
 Background picture on start screen, https://www.flickr.com/photos/galet09/15447326299
-Ship pictures, https://opengameart.org/content/space-ships-side-scroller
+Ship sprites, https://opengameart.org/content/space-ships-side-scroller
+Invincibility power up sprite, https://opengameart.org/content/star-svg
 Game sounds from https://jfxr.frozenfractal.com/#
 game_over.wav by Thomas Springfeldt
