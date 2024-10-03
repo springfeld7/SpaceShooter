@@ -7,12 +7,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Build
 import android.os.SystemClock.uptimeMillis
-import android.util.Log
 import android.view.MotionEvent
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import kotlin.math.round
 import kotlin.random.Random
 
 const val STAGE_WIDTH = 1280
@@ -30,7 +28,6 @@ var RNG = Random(uptimeMillis())
  */
 class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Callback {
 
-    private val tag = "Game"
     private lateinit var gameThread : Thread
     @Volatile private var isRunning : Boolean = false
     @Volatile private var fingerDown = false
@@ -61,7 +58,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
      * Game loop.
      */
     override fun run() {
-        Log.d(tag, "run()")
         while(isRunning) {
             update()
             render()
@@ -124,7 +120,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         renderHud(canvas, paint)
 
         holder.unlockCanvasAndPost(canvas)
-
     }
 
     private fun renderHud(canvas: Canvas, paint: Paint) {
@@ -133,17 +128,20 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         paint.color = Color.WHITE
         paint.textSize = textSize
         paint.textAlign = Paint.Align.LEFT
+
         if (!isGameOver) {
-            canvas.drawText("Health: ${player.getHealth()}", textPosition, textSize, paint)
-            canvas.drawText("Distance: ${round(player.getDistanceTraveled())}", textPosition, textSize * 2, paint)
+            val health = resources.getString(R.string.player_health, player.getHealth())
+            val distance = resources.getString(R.string.distance, player.getDistanceTraveled().toInt())
+            canvas.drawText(health, textPosition, textSize, paint)
+            canvas.drawText(distance, textPosition, textSize * 2, paint)
         } else {
             val centerX = STAGE_WIDTH / 2.0f
             val centerY = STAGE_HEIGHT / 2.0f
             paint.textAlign = Paint.Align.CENTER
-            canvas.drawText("GAME OVER", centerX, centerY, paint)
-            canvas.drawText("Press to restart", centerX, centerY + textSize, paint)
-        }
 
+            canvas.drawText(resources.getString(R.string.game_over), centerX, centerY, paint)
+            canvas.drawText(resources.getString(R.string.restart), centerX, centerY + textSize, paint)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -170,15 +168,12 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     /**
      * Stops the game from processing.
      */
-    fun onPause() {
-        Log.d(tag, "onPause")
-    }
+    fun onPause() { }
 
     /**
      * Resumes the processing of the game.
      */
     fun onResume() {
-        Log.d(tag, "onResume")
     }
 
     fun onDestroy() {
@@ -186,7 +181,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
-        Log.d(tag, "surface created")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             holder.surface.setFrameRate(TARGET_FPS, Surface.FRAME_RATE_COMPATIBILITY_DEFAULT)
         }
@@ -195,12 +189,9 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         gameThread.start()
     }
 
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        Log.d(tag, "KOKKAsurface changed, width: $width, height: $height")
-    }
+    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) { }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        Log.d(tag, "surface destroyed")
         isRunning = false
         gameThread.join()
     }
