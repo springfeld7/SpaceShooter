@@ -68,8 +68,8 @@ class Player(game: Game) : Entity() {
         if (!invincible) {
             canvas.drawBitmap(bitmap, x, y, paint)
         } else {
-            if (blink) else canvas.drawBitmap(bitmap, x, y, paint)
-            if (System.currentTimeMillis() - blinkTimer >= 150) {
+            if (!blink) canvas.drawBitmap(bitmap, x, y, paint)
+            if (System.currentTimeMillis() - blinkTimer >= BLINK_LENGTH) {
                 flipBlink()
                 blinkTimer = System.currentTimeMillis()
             }
@@ -125,7 +125,7 @@ class Player(game: Game) : Entity() {
 
     fun getBlinkTimer() : Long { return blinkTimer }
 
-    fun flipBlink() { blink = !blink }
+    private fun flipBlink() { blink = !blink }
 
     fun getDistanceTraveled() : Float { return distanceTraveled }
 
