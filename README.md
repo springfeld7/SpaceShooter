@@ -19,8 +19,7 @@ by Ulf Benjaminssson).
 
 ---
 ## Pass With Distinction Achievements:
-
-
+1 - Give all enemy types distinct movement patterns
 
 ---
 ## Asset Credits:
