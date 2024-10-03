@@ -1,5 +1,5 @@
-# SpaceShooter
-An Android Space Shooter created as part of a course (Game Development for Android 7.5hp, conducted 
+# SpaceShooter (for Android) by Thomas Springfeldt 
+A Space Shooter created as part of a course (Game Development for Android 7.5hp, conducted 
 by Ulf Benjaminssson).
 
 ---
@@ -19,3 +19,4 @@ by Ulf Benjaminssson).
 
 ---
 ## Pass With Distinction Achievements:
+
