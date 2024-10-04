@@ -13,7 +13,7 @@ abstract class Enemy : Entity() {
     abstract fun move(playerVelocity: Float)
 
     fun respawn() {
-        left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH * 2)
+        left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH * 4)
         centerY = RNG.nextInt((height / 2).toInt(), STAGE_HEIGHT - (height / 2).toInt()).toFloat()
     }
 

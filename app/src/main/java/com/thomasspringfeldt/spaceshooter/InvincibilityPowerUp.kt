@@ -30,7 +30,7 @@ class InvincibilityPowerUp(game: Game, player: Player) : PowerUp() {
 
     override fun update(playerVelocity: Float) {
         super.update()
-        if (!IsEmpty()) {
+        if (!isEmpty()) {
             x -= playerVelocity + velX
         } else {
 

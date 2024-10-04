@@ -9,7 +9,7 @@ const val PWRUP_VELOCITY = 8f
  * PowerUp base class.
  * @author Thomas Springfeldt
  */
-abstract class PowerUp() : Entity() {
+abstract class PowerUp : Entity() {
 
     private var duration = 0
     private var empty = false
@@ -28,6 +28,6 @@ abstract class PowerUp() : Entity() {
     fun setDuration(duration: Int) { this.duration = duration}
     fun getDuration() : Int { return duration }
 
-    fun IsEmpty() : Boolean { return empty }
+    fun isEmpty() : Boolean { return empty }
     fun flipEmpty() { empty = !empty }
 }

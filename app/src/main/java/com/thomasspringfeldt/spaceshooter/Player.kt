@@ -123,8 +123,6 @@ class Player(game: Game) : Entity() {
 
     fun getInvincibilityTimer() : Long { return invincibilityTimer }
 
-    fun getBlinkTimer() : Long { return blinkTimer }
-
     private fun flipBlink() { blink = !blink }
 
     fun getDistanceTraveled() : Float { return distanceTraveled }

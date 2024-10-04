@@ -45,8 +45,4 @@ class Star : Entity() {
 
         return starSizes[RNG.nextInt(starSizes.size)].toFloat()
     }
-
-    override fun onCollision(that: Entity) {
-        super.onCollision(that)
-    }
 }
