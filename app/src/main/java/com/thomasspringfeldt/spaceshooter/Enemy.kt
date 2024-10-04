@@ -10,8 +10,17 @@ import android.graphics.Matrix
  */
 abstract class Enemy : Entity() {
     abstract fun update(playerVelocity: Float)
-    abstract fun respawn()
     abstract fun move(playerVelocity: Float)
+
+    fun respawn() {
+        left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH * 2)
+        centerY = RNG.nextInt((height / 2).toInt(), STAGE_HEIGHT - (height / 2).toInt()).toFloat()
+    }
+
+    override fun onCollision(that: Entity) {
+        super.onCollision(that)
+        respawn()
+    }
 
     fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
         val original = BitmapFactory.decodeResource(game.resources, resId)
@@ -34,6 +43,6 @@ abstract class Enemy : Entity() {
         return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
     }
 
-    fun flipVertically(src: Bitmap) = flip(src, vertically = true)
-    fun flipHorizontally(src: Bitmap) = flip(src, vertically = false)
+    private fun flipVertically(src: Bitmap) = flip(src, vertically = true)
+    //fun flipHorizontally(src: Bitmap) = flip(src, vertically = false)
 }

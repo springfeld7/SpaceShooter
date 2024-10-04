@@ -32,7 +32,6 @@ class ZigZagEnemy(game: Game) : Enemy() {
     override fun update(playerVelocity: Float) {
         super.update()
         move(playerVelocity)
-
     }
 
     override fun render(canvas: Canvas, paint: Paint) {
@@ -53,17 +52,6 @@ class ZigZagEnemy(game: Game) : Enemy() {
             moveUp = !moveUp
             zigCounter = 0f
         }
-
         if (right < 0) { respawn() }
-    }
-
-    override fun respawn() {
-        left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH)
-        centerY = RNG.nextInt((height / 2).toInt(), STAGE_HEIGHT - (height / 2).toInt()).toFloat()
-    }
-
-    override fun onCollision(that: Entity) {
-        super.onCollision(that)
-        respawn()
     }
 }

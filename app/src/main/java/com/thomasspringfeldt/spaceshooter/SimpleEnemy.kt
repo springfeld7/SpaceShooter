@@ -40,14 +40,4 @@ class SimpleEnemy(game: Game) : Enemy() {
             respawn()
         }
     }
-
-    override fun respawn() {
-        left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH)
-        centerY = RNG.nextInt((height / 2).toInt(), STAGE_HEIGHT - (height / 2).toInt()).toFloat()
-    }
-
-    override fun onCollision(that: Entity) {
-        super.onCollision(that)
-        respawn()
-    }
 }
