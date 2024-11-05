@@ -20,7 +20,7 @@ const val ENEMY_COUNT = 8
 const val PREFS = "com.thomasspringfeldt.spaceshooter"
 const val LONGEST_DIST = "longest_distance"
 const val TARGET_FPS = 60f
-const val PWRUP_TRIGGER_VALUE = 1500f
+const val PWRUP_TRIGGER_VALUE = 4000f
 var RNG = Random(uptimeMillis())
 
 /**
@@ -58,9 +58,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for(i in 2 until ENEMY_COUNT-4) enemies.add(ZigZagEnemy(this))
         for(i in 4 until ENEMY_COUNT-2) enemies.add(BoosterEnemy(this))
         for(i in 6 until ENEMY_COUNT) enemies.add(SineEnemy(this))
-        powerups.add(InvincibilityPowerUp(this, player))
-        powerups.add(ScoreMultiplierPowerUp(this, player))
-        powerups.add(AttackSpeedPowerUp(this, player))
 
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
@@ -91,7 +88,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         when (RNG.nextInt(3)) {
             0 -> { addPowerUp(InvincibilityPowerUp(this, player)) }
             1 -> { addPowerUp(ScoreMultiplierPowerUp(this, player)) }
-            2 -> { addPowerUp(AttackSpeedPowerUp(this, player)) }
+            2 -> { addPowerUp(FireRatePowerUp(this, player)) }
             else -> { }
         }
     }
