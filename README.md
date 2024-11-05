@@ -2,6 +2,10 @@
 A Space Shooter created as part of a course (Game Development for Android 7.5hp, conducted 
 by Ulf Benjaminssson).
 
+# NOTE: New features of this second attempt are:
+
+- PWD-achievements 2 and 4
+
 ---
 ## Passing Grade Achievements:
 1 - Refactor all user-facing Strings into resources  
@@ -20,6 +24,13 @@ by Ulf Benjaminssson).
 ---
 ## Pass With Distinction Achievements:
 1 - Give all enemy types distinct movement patterns
+
+2 - Add player projectiles 
+- The player can now shoot bullets. 1 shot / 0.7sec. 4 bullets allowed at the same time.
+
+4 - Add some power ups to the game
+- Added 3 PowerUps:
+- InvincibilityPowerUp, ScoreMultiplierPowerUp, FireRatePowerUp
 
 ---
 ## Asset Credits:
