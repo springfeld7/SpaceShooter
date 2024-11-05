@@ -18,20 +18,25 @@ const val VELOCITY_EPSILON = 0.01f
 const val PLAYER_DEFAULT_HEALTH = 3
 const val IFRAMES_DURATION = 1500
 const val BLINK_LENGTH = 150
+const val MAX_BULLETS = 6
+const val BULLET_FIRE_RATE = 700
 
 /**
  * The protagonist of the game.
  * @author Thomas Springfeldt
  */
-class Player(game: Game) : Entity() {
+class Player(private val game: Game) : Entity() {
 
     private val bitmap = createScaledBitmap(game, R.drawable.player)
     var health = PLAYER_DEFAULT_HEALTH
     var isInvincible = false
     var iFramesIsActive = false
-    var iFramesTimer : Long = 0
+    var iFramesTimer: Long = 0
     var isBlinking = false
-    var blinkTimer : Long = 0
+    var blinkTimer: Long = 0
+    var maxBullets = MAX_BULLETS
+    var bulletFireRate = BULLET_FIRE_RATE
+    var bulletTimer: Long = 0
     var distanceTraveled = 0f
 
     init {
@@ -63,8 +68,14 @@ class Player(game: Game) : Entity() {
             velY = 0f
         }
 
-        if (iFramesIsActive) {
+        if (iFramesIsActive && !isInvincible) {
             handleIFrames(IFRAMES_DURATION)
+        }
+
+        if (game.getProjectilesSize() < maxBullets && System.currentTimeMillis() - bulletTimer > bulletFireRate) {
+            jukebox.play(SFX.shot_player)
+            bulletTimer = System.currentTimeMillis()
+            game.addProjectile(BlueBullet(game, this))
         }
     }
 
@@ -86,13 +97,13 @@ class Player(game: Game) : Entity() {
     }
 
     fun handleIFrames(duration: Int) {
-        if (iFramesIsActive && System.currentTimeMillis() - iFramesTimer > duration) {
-            iFramesIsActive = false
-            isBlinking = false
-        }
-        if (System.currentTimeMillis() - blinkTimer >= BLINK_LENGTH) {
+        if ((iFramesIsActive || isInvincible) && System.currentTimeMillis() - blinkTimer >= BLINK_LENGTH) {
             isBlinking = !isBlinking
             blinkTimer = System.currentTimeMillis()
+        }
+        if ((iFramesIsActive || isInvincible) && System.currentTimeMillis() - iFramesTimer > duration) {
+            iFramesIsActive = false
+            isBlinking = false
         }
     }
 
