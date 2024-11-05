@@ -23,8 +23,9 @@ by Ulf Benjaminssson).
 
 ---
 ## Asset Credits:
-Background picture on start screen, https://www.flickr.com/photos/galet09/15447326299
-Ship sprites, https://opengameart.org/content/space-ships-side-scroller
-Invincibility power up sprite, https://opengameart.org/content/star-svg
+Background picture on start screen - https://www.flickr.com/photos/galet09/15447326299
+Ship sprites - https://opengameart.org/content/space-ships-side-scroller
+Invincibility power up sprite - https://opengameart.org/content/star-svg
+Bullet sprite - https://opengameart.org/content/assets-free-laser-bullets-pack-2020
 Game sounds from https://jfxr.frozenfractal.com/#
 game_over.wav by Thomas Springfeldt
