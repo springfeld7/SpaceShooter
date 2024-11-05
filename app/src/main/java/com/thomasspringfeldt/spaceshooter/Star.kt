@@ -42,7 +42,6 @@ class Star : Entity() {
     }
 
     private fun getRandomStarSize() : Float {
-
         return starSizes[RNG.nextInt(starSizes.size)].toFloat()
     }
 }
