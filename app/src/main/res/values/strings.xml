@@ -6,4 +6,5 @@
     <string name="distance">Distance: %1$d</string>
     <string name="game_over">GAME OVER</string>
     <string name="restart">Press to restart</string>
+    <string name="multiply">2XScore</string>
 </resources>

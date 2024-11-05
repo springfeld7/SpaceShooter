@@ -18,7 +18,8 @@ abstract class PowerUp : Entity() {
     var isActive = false
     var isDead = false
     var timer :Long = 0
-    lateinit var player : Player
+    lateinit var player: Player
+    lateinit var game: Game
 
     abstract fun update(playerVelocity: Float)
 
