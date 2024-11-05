@@ -79,14 +79,9 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for (star in stars) star.update(player.velX)
         for (enemy in enemies) enemy.update(player.velX)
         for (powerup in powerups) powerup.update(player.velX)
+
+        checkCollisions()
         checkPwrUpCollisions()
-        if (!player.isInvincible()) {
-            checkCollisions()
-        } else {
-            if (System.currentTimeMillis() - player.getInvincibilityTimer() >= INVINCIBILITY_WINDOW) {
-                player.flipInvincible()
-            }
-        }
         checkGameOver()
     }
 
@@ -110,10 +105,10 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     }
 
     private fun checkGameOver() {
-       if (player.getHealth() <= 0) {
+       if (player.health <= 0) {
            jukebox.play(SFX.game_over)
-           if (player.getDistanceTraveled() > maxDistancedTraveled) {
-               editor.putFloat(LONGEST_DIST, player.getDistanceTraveled())
+           if (player.distanceTraveled > maxDistancedTraveled) {
+               editor.putFloat(LONGEST_DIST, player.distanceTraveled)
                editor.apply()
            }
            isGameOver = true
@@ -145,8 +140,8 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         paint.textAlign = Paint.Align.LEFT
 
         if (!isGameOver) {
-            val health = resources.getString(R.string.player_health, player.getHealth())
-            val distance = resources.getString(R.string.distance, player.getDistanceTraveled().toInt())
+            val health = resources.getString(R.string.player_health, player.health)
+            val distance = resources.getString(R.string.distance, player.distanceTraveled.toInt())
             canvas.drawText(health, textPosition, textSize, paint)
             canvas.drawText(distance, textPosition, textSize * 2, paint)
         } else {

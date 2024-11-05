@@ -16,7 +16,7 @@ const val BOOST_FORCE = -0.8f
 const val MAX_VELOCITY = 15f
 const val VELOCITY_EPSILON = 0.01f
 const val PLAYER_DEFAULT_HEALTH = 3
-const val INVINCIBILITY_WINDOW = 1500
+const val IFRAMES_DURATION = 1500
 const val BLINK_LENGTH = 150
 
 /**
@@ -26,12 +26,13 @@ const val BLINK_LENGTH = 150
 class Player(game: Game) : Entity() {
 
     private val bitmap = createScaledBitmap(game, R.drawable.player)
-    private var health = PLAYER_DEFAULT_HEALTH
-    private var invincible = false
-    private var invincibilityTimer : Long = 0
-    private var blink = false
-    private var blinkTimer : Long = 0
-    private var distanceTraveled = 0f
+    var health = PLAYER_DEFAULT_HEALTH
+    var isInvincible = false
+    var iFramesIsActive = false
+    var iFramesTimer : Long = 0
+    var isBlinking = false
+    var blinkTimer : Long = 0
+    var distanceTraveled = 0f
 
     init {
         width = bitmap.width.toFloat()
@@ -61,18 +62,39 @@ class Player(game: Game) : Entity() {
             top = 0f
             velY = 0f
         }
+
+        if (iFramesIsActive) {
+            handleIFrames(IFRAMES_DURATION)
+        }
+
     }
 
     override fun render(canvas: Canvas, paint: Paint) {
         super.render(canvas, paint)
-        if (!invincible) {
-            canvas.drawBitmap(bitmap, x, y, paint)
-        } else {
-            if (!blink) canvas.drawBitmap(bitmap, x, y, paint)
-            if (System.currentTimeMillis() - blinkTimer >= BLINK_LENGTH) {
-                flipBlink()
-                blinkTimer = System.currentTimeMillis()
-            }
+        if (!isBlinking) {canvas.drawBitmap(bitmap, x, y, paint)}
+    }
+
+    override fun onCollision(that: Entity) {
+        super.onCollision(that)
+
+        if (!iFramesIsActive && !isInvincible && that is Enemy) {
+            health--
+            iFramesIsActive = true
+            iFramesTimer = System.currentTimeMillis()
+            isBlinking = true
+            blinkTimer = System.currentTimeMillis()
+        }
+    }
+
+
+    fun handleIFrames(duration: Int) {
+        if (iFramesIsActive && System.currentTimeMillis() - iFramesTimer > duration) {
+            iFramesIsActive = false
+            isBlinking = false
+        }
+        if (System.currentTimeMillis() - blinkTimer >= BLINK_LENGTH) {
+            isBlinking = !isBlinking
+            blinkTimer = System.currentTimeMillis()
         }
     }
 
@@ -97,15 +119,6 @@ class Player(game: Game) : Entity() {
         if (velY.absoluteValue < VELOCITY_EPSILON) velY = 0f
     }
 
-    override fun onCollision(that: Entity) {
-        super.onCollision(that)
-        invincible = true
-        invincibilityTimer = System.currentTimeMillis()
-        blink = true
-        blinkTimer = System.currentTimeMillis()
-        health--
-    }
-
     fun respawn() {
         x = PLAYER_POSX.toFloat()
         health = PLAYER_DEFAULT_HEALTH
@@ -114,18 +127,6 @@ class Player(game: Game) : Entity() {
         velY = 0f
         distanceTraveled = 0f
     }
-
-    fun getHealth() : Int { return health }
-
-    fun isInvincible() : Boolean { return invincible }
-
-    fun flipInvincible() { invincible = !invincible }
-
-    fun getInvincibilityTimer() : Long { return invincibilityTimer }
-
-    private fun flipBlink() { blink = !blink }
-
-    fun getDistanceTraveled() : Float { return distanceTraveled }
 
     private fun createScaledBitmap(game: Game, resId: Int) : Bitmap {
         val original = BitmapFactory.decodeResource(game.resources, resId)
