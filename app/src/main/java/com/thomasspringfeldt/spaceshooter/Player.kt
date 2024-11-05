@@ -66,7 +66,6 @@ class Player(game: Game) : Entity() {
         if (iFramesIsActive) {
             handleIFrames(IFRAMES_DURATION)
         }
-
     }
 
     override fun render(canvas: Canvas, paint: Paint) {
@@ -85,7 +84,6 @@ class Player(game: Game) : Entity() {
             blinkTimer = System.currentTimeMillis()
         }
     }
-
 
     fun handleIFrames(duration: Int) {
         if (iFramesIsActive && System.currentTimeMillis() - iFramesTimer > duration) {
