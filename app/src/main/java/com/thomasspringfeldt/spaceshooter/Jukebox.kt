@@ -17,7 +17,7 @@ object SFX{
     var start_game = 0
     var game_over = 0
 }
-const val MAX_STREAMS = 3
+const val MAX_STREAMS = 5
 
 class Jukebox(private val assetManager: AssetManager) {
     private val tag = "Jukebox"
