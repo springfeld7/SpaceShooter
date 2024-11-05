@@ -7,7 +7,7 @@ const val ATKSPD_PWRUP_FIRE_RATE = BULLET_FIRE_RATE / 2
  * Attack speed power up.
  * @author Thomas Springfeldt
  */
-class AttackSpeedPowerUp(game: Game, player: Player) : PowerUp() {
+class FireRatePowerUp(game: Game, player: Player) : PowerUp() {
 
     init {
         velX = PWRUP_VELOCITY
