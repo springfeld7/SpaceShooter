@@ -55,6 +55,8 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for(i in 6 until ENEMY_COUNT) enemies.add(SineEnemy(this))
 
         powerups.add(InvincibilityPowerUp(this, player))
+        powerups.add(ScoreMultiplierPowerUp(this, player))
+        powerups.add(AttackSpeedPowerUp(this, player))
 
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
