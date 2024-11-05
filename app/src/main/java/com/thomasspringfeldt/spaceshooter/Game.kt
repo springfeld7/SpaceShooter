@@ -20,6 +20,7 @@ const val ENEMY_COUNT = 8
 const val PREFS = "com.thomasspringfeldt.spaceshooter"
 const val LONGEST_DIST = "longest_distance"
 const val TARGET_FPS = 60f
+const val PWRUP_TRIGGER_VALUE = 1500f
 var RNG = Random(uptimeMillis())
 
 /**
@@ -41,7 +42,11 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
     private val player = Player(this)
     private val stars = ArrayList<Star>()
     private val enemies = ArrayList<Enemy>()
+    private val projectiles = ArrayList<Projectile>()
     private val powerups = ArrayList<PowerUp>()
+    private val entitiesToRemove = ArrayList<Entity>()
+
+    private var pwrUpTrigger = 0f
 
     private var jukebox = Jukebox(context.assets)
 
@@ -53,13 +58,42 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for(i in 2 until ENEMY_COUNT-4) enemies.add(ZigZagEnemy(this))
         for(i in 4 until ENEMY_COUNT-2) enemies.add(BoosterEnemy(this))
         for(i in 6 until ENEMY_COUNT) enemies.add(SineEnemy(this))
-
         powerups.add(InvincibilityPowerUp(this, player))
         powerups.add(ScoreMultiplierPowerUp(this, player))
         powerups.add(AttackSpeedPowerUp(this, player))
 
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
+    }
+
+    fun getProjectilesSize() : Int { return projectiles.size }
+    fun addProjectile(projectile: Projectile) { projectiles.add(projectile) }
+    fun addPowerUp(powerUp: PowerUp) { powerups.add(powerUp) }
+
+    private fun removeEntity(entity: Entity) {
+        entitiesToRemove.add(entity)
+    }
+
+    private fun addAndRemoveEntities() {
+        projectiles.removeAll(entitiesToRemove.toSet())
+        powerups.removeAll(entitiesToRemove.toSet())
+        entitiesToRemove.clear()
+
+        //entities.addAll(entitiesToAdd)
+        //entitiesToAdd.clear()
+        if (pwrUpTrigger > PWRUP_TRIGGER_VALUE) {
+            spawnRandomPwrUp()
+            pwrUpTrigger = 0f
+        }
+    }
+
+    private fun spawnRandomPwrUp() {
+        when (RNG.nextInt(3)) {
+            0 -> { addPowerUp(InvincibilityPowerUp(this, player)) }
+            1 -> { addPowerUp(ScoreMultiplierPowerUp(this, player)) }
+            2 -> { addPowerUp(AttackSpeedPowerUp(this, player)) }
+            else -> { }
+        }
     }
 
     /**
@@ -81,13 +115,26 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         }
         isBoosting = fingerDown
         player.update(isBoosting, jukebox)
+        pwrUpTrigger += player.velX
+
         for (star in stars) star.update(player.velX)
         for (enemy in enemies) enemy.update(player.velX)
-        for (powerup in powerups) powerup.update(player.velX)
-
+        for (projectile in projectiles) {
+            projectile.update(player.velX)
+            if (projectile.isDead) {
+                removeEntity(projectile)
+            }
+        }
+        for (powerup in powerups) {
+            powerup.update(player.velX)
+            if (powerup.isDead) {
+                removeEntity(powerup)
+            }
+        }
         checkCollisions()
         checkPwrUpCollisions()
         checkGameOver()
+        addAndRemoveEntities()
     }
 
     /**
@@ -100,19 +147,37 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
         for (star in stars) star.render(canvas, paint)
         for (enemy in enemies) enemy.render(canvas, paint)
+        for (projectile in projectiles) projectile.render(canvas, paint)
         for (powerup in powerups) powerup.render(canvas, paint)
         player.render(canvas, paint)
         renderHud(canvas, paint)
-
         holder.unlockCanvasAndPost(canvas)
     }
 
     private fun checkCollisions() {
+        checkEnemyCollisions()
+        checkProjectileCollisions()
+        checkPwrUpCollisions()
+    }
+
+    private fun checkEnemyCollisions() {
         for (enemy in enemies) {
             if (isColliding(enemy, player)) {
                 jukebox.play(SFX.crash)
                 enemy.onCollision(player)
                 player.onCollision(enemy)
+            }
+        }
+    }
+
+    private fun checkProjectileCollisions() {
+        for (projectile in projectiles) {
+            for (enemy in enemies) {
+                if (isColliding(projectile, enemy)) {
+                    jukebox.play(SFX.crash)
+                    projectile.onCollision(enemy)
+                    enemy.onCollision(projectile)
+                }
             }
         }
     }
@@ -175,6 +240,8 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     private fun restart() {
         for(enemy in enemies) enemy.respawn()
+        powerups.clear()
+        projectiles.clear()
         player.respawn()
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         isGameOver = false
