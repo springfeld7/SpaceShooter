@@ -1,6 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 
@@ -13,7 +12,6 @@ const val ZIGZAG_ENEMY_VELOCITY = 4f
  */
 class ZigZagEnemy(game: Game) : Enemy() {
 
-    private val bitmap : Bitmap
     private var zig : Float
     private var zigCounter = 0f
     private var moveUp = true
@@ -32,11 +30,6 @@ class ZigZagEnemy(game: Game) : Enemy() {
     override fun update(playerVelocity: Float) {
         super.update()
         move(playerVelocity)
-    }
-
-    override fun render(canvas: Canvas, paint: Paint) {
-        super.render(canvas, paint)
-        canvas.drawBitmap(bitmap, x, y, paint)
     }
 
     override fun move(playerVelocity: Float) {

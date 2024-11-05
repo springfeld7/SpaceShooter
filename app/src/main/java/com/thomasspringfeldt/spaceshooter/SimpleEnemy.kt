@@ -1,6 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 
@@ -11,8 +10,6 @@ const val SIMPLE_ENEMY_VELOCITY = 5f
  * @author Thomas Springfeldt
  */
 class SimpleEnemy(game: Game) : Enemy() {
-
-    private val bitmap : Bitmap
 
     init {
         velX = SIMPLE_ENEMY_VELOCITY
@@ -27,11 +24,6 @@ class SimpleEnemy(game: Game) : Enemy() {
         super.update()
         move(playerVelocity)
 
-    }
-
-    override fun render(canvas: Canvas, paint: Paint) {
-        super.render(canvas, paint)
-        canvas.drawBitmap(bitmap, x, y, paint)
     }
 
     override fun move(playerVelocity: Float) {

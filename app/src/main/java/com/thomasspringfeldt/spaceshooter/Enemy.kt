@@ -2,15 +2,25 @@ package com.thomasspringfeldt.spaceshooter
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.Paint
 
 /**
  * Base class for enemies.
  * @author Thomas Springfeldt
  */
 abstract class Enemy : Entity() {
+
+    lateinit var bitmap : Bitmap
+
     abstract fun update(playerVelocity: Float)
     abstract fun move(playerVelocity: Float)
+
+    override fun render(canvas: Canvas, paint: Paint) {
+        super.render(canvas, paint)
+        canvas.drawBitmap(bitmap, x, y, paint)
+    }
 
     fun respawn() {
         left = STAGE_WIDTH.toFloat() + RNG.nextInt(STAGE_WIDTH * 4)

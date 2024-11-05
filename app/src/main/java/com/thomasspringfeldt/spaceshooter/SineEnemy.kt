@@ -1,6 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import kotlin.math.sin
@@ -12,8 +11,6 @@ const val SINE_ENEMY_VELOCITY = 8f
  * @author Thomas Springfeldt
  */
 class SineEnemy(game: Game) : Enemy() {
-
-    private val bitmap : Bitmap
 
     init {
         velX = SINE_ENEMY_VELOCITY
@@ -27,11 +24,6 @@ class SineEnemy(game: Game) : Enemy() {
     override fun update(playerVelocity: Float) {
         super.update()
         move(playerVelocity)
-    }
-
-    override fun render(canvas: Canvas, paint: Paint) {
-        super.render(canvas, paint)
-        canvas.drawBitmap(bitmap, x, y, paint)
     }
 
     override fun move(playerVelocity: Float) {

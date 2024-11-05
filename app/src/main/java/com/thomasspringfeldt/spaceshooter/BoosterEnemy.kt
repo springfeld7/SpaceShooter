@@ -1,6 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 
@@ -12,8 +11,6 @@ const val BOOSTER_ENEMY_BOOST = 8
  * @author Thomas Springfeldt
  */
 class BoosterEnemy(game: Game) : Enemy() {
-
-    private val bitmap : Bitmap
 
     init {
         velX = BOOSTER_ENEMY_VELOCITY
@@ -28,11 +25,6 @@ class BoosterEnemy(game: Game) : Enemy() {
         super.update()
         move(playerVelocity)
 
-    }
-
-    override fun render(canvas: Canvas, paint: Paint) {
-        super.render(canvas, paint)
-        canvas.drawBitmap(bitmap, x, y, paint)
     }
 
     override fun move(playerVelocity: Float) {
