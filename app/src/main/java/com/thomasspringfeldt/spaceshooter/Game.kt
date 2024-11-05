@@ -53,6 +53,9 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         for(i in 2 until ENEMY_COUNT-4) enemies.add(ZigZagEnemy(this))
         for(i in 4 until ENEMY_COUNT-2) enemies.add(BoosterEnemy(this))
         for(i in 6 until ENEMY_COUNT) enemies.add(SineEnemy(this))
+
+        powerups.add(InvincibilityPowerUp(this, player))
+
         maxDistancedTraveled = prefs.getFloat(LONGEST_DIST, 0.0f)
         jukebox.play(SFX.start_game)
     }
@@ -85,6 +88,23 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
         checkGameOver()
     }
 
+    /**
+     * Renders game state.
+     */
+    private fun render() {
+        val canvas = holder?.lockCanvas() ?: return
+        canvas.drawColor(Color.BLUE)
+        val paint = Paint()
+
+        for (star in stars) star.render(canvas, paint)
+        for (enemy in enemies) enemy.render(canvas, paint)
+        for (powerup in powerups) powerup.render(canvas, paint)
+        player.render(canvas, paint)
+        renderHud(canvas, paint)
+
+        holder.unlockCanvasAndPost(canvas)
+    }
+
     private fun checkCollisions() {
         for (enemy in enemies) {
             if (isColliding(enemy, player)) {
@@ -113,23 +133,6 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
            }
            isGameOver = true
        }
-    }
-
-    /**
-     * Renders game state.
-     */
-    private fun render() {
-        val canvas = holder?.lockCanvas() ?: return
-        canvas.drawColor(Color.BLUE)
-        val paint = Paint()
-
-        for (star in stars) star.render(canvas, paint)
-        for (enemy in enemies) enemy.render(canvas, paint)
-        for (powerup in powerups) powerup.render(canvas, paint)
-        player.render(canvas, paint)
-        renderHud(canvas, paint)
-
-        holder.unlockCanvasAndPost(canvas)
     }
 
     private fun renderHud(canvas: Canvas, paint: Paint) {

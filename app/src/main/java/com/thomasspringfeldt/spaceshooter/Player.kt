@@ -122,6 +122,8 @@ class Player(game: Game) : Entity() {
     fun respawn() {
         x = PLAYER_POSX.toFloat()
         health = PLAYER_DEFAULT_HEALTH
+        isBlinking = false
+        iFramesIsActive = false
         centerY = STAGE_HEIGHT / 2.0f
         velX = 0f
         velY = 0f
