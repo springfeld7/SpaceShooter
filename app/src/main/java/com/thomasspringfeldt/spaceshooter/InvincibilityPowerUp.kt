@@ -29,6 +29,7 @@ class InvincibilityPowerUp(game: Game, player: Player) : PowerUp() {
         if (isActive && System.currentTimeMillis() - timer >= pwrUpDuration) {
             player.isInvincible = false
             isDead = true
+            player.isBlinking = false
         }
         if (isActive && !isDead) { player.handleIFrames(INVINC_PWRUP_DURATION) }
     }
