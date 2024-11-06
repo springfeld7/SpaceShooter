@@ -1,7 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.util.Log
-
 const val BLUE_BULLET_VELOCITY = 10f
 
 /**

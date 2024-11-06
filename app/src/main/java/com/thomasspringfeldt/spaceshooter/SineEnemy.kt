@@ -1,7 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Canvas
-import android.graphics.Paint
 import kotlin.math.sin
 
 const val SINE_ENEMY_VELOCITY = 8f

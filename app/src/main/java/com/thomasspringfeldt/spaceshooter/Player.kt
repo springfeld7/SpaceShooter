@@ -18,7 +18,7 @@ const val VELOCITY_EPSILON = 0.01f
 const val PLAYER_DEFAULT_HEALTH = 3
 const val IFRAMES_DURATION = 1500
 const val BLINK_LENGTH = 150
-const val MAX_BULLETS = 6
+const val MAX_BULLETS = 4
 const val BULLET_FIRE_RATE = 700
 
 /**
@@ -30,13 +30,13 @@ class Player(private val game: Game) : Entity() {
     private val bitmap = createScaledBitmap(game, R.drawable.player)
     var health = PLAYER_DEFAULT_HEALTH
     var isInvincible = false
-    var iFramesIsActive = false
+    private var iFramesIsActive = false
     var iFramesTimer: Long = 0
     var isBlinking = false
     var blinkTimer: Long = 0
-    var maxBullets = MAX_BULLETS
+    private var maxBullets = MAX_BULLETS
     var bulletFireRate = BULLET_FIRE_RATE
-    var bulletTimer: Long = 0
+    private var bulletTimer: Long = 0
     var distanceTraveled = 0f
 
     init {
@@ -75,13 +75,14 @@ class Player(private val game: Game) : Entity() {
         if (game.getProjectilesSize() < maxBullets && System.currentTimeMillis() - bulletTimer > bulletFireRate) {
             jukebox.play(SFX.shot_player)
             bulletTimer = System.currentTimeMillis()
+
             game.addProjectile(BlueBullet(game, this))
         }
     }
 
     override fun render(canvas: Canvas, paint: Paint) {
         super.render(canvas, paint)
-        if (!isBlinking) {canvas.drawBitmap(bitmap, x, y, paint)}
+        if (!isBlinking) { canvas.drawBitmap(bitmap, x, y, paint) }
     }
 
     override fun onCollision(that: Entity) {

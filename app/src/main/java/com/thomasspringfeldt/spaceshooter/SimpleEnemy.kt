@@ -1,8 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Canvas
-import android.graphics.Paint
-
 const val SIMPLE_ENEMY_VELOCITY = 5f
 
 /**

@@ -65,7 +65,7 @@ class Game(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Cal
 
     fun getProjectilesSize() : Int { return projectiles.size }
     fun addProjectile(projectile: Projectile) { projectiles.add(projectile) }
-    fun addPowerUp(powerUp: PowerUp) { powerups.add(powerUp) }
+    private fun addPowerUp(powerUp: PowerUp) { powerups.add(powerUp) }
 
     private fun removeEntity(entity: Entity) {
         entitiesToRemove.add(entity)

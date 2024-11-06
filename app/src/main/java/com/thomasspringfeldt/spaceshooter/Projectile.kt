@@ -39,6 +39,5 @@ abstract class Projectile(velocity: Float) : Entity() {
     override fun onCollision(that: Entity) {
         super.onCollision(that)
         left = STAGE_WIDTH.toFloat()
-
     }
 }

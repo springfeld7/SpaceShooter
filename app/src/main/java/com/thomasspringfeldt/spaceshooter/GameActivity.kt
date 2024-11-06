@@ -13,7 +13,6 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         game = Game(this)
         setContentView(game)
-
     }
 
     override fun onPause() {

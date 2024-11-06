@@ -1,10 +1,6 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Canvas
-import android.graphics.Paint
-
 const val ZIGZAG_ENEMY_VELOCITY = 4f
-
 
 /**
  * The zigzagging enemy of the game.

@@ -1,8 +1,5 @@
 package com.thomasspringfeldt.spaceshooter
 
-import android.graphics.Canvas
-import android.graphics.Paint
-
 const val BOOSTER_ENEMY_VELOCITY = 6f
 const val BOOSTER_ENEMY_BOOST = 8
 
@@ -24,16 +21,14 @@ class BoosterEnemy(game: Game) : Enemy() {
     override fun update(playerVelocity: Float) {
         super.update()
         move(playerVelocity)
-
     }
 
     override fun move(playerVelocity: Float) {
-        if (x > STAGE_WIDTH / 2) {
-            x -= playerVelocity + velX * BOOSTER_ENEMY_BOOST
+        x -= if (x > STAGE_WIDTH / 2) {
+            playerVelocity + velX * BOOSTER_ENEMY_BOOST
         } else {
-            x -= playerVelocity + velX / 2
+            playerVelocity + velX / 2
         }
-
         if (right < 0) { respawn() }
     }
 }
