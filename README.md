@@ -2,9 +2,12 @@
 A Space Shooter created as part of a course (Game Development for Android 7.5hp, conducted 
 by Ulf Benjaminssson).
 
-# NOTE: New features of this second attempt are:
-
-- PWD-achievements 2 and 4
+---
+# NOTE! New features of this second attempt are:
+## PWD achievements 2 and 4
+Other changes (Responded to feedback from attempt one):
+- Moved Player iFrames-related code from Game::update to Player::update
+- Moved bitmap property from Enemy subclasses up to Enemy base class
 
 ---
 ## Passing Grade Achievements:
@@ -34,9 +37,9 @@ by Ulf Benjaminssson).
 
 ---
 ## Asset Credits:
-Background picture on start screen - https://www.flickr.com/photos/galet09/15447326299
-Ship sprites - https://opengameart.org/content/space-ships-side-scroller
-Invincibility power up sprite - https://opengameart.org/content/star-svg
-Bullet sprite - https://opengameart.org/content/assets-free-laser-bullets-pack-2020
-Game sounds from https://jfxr.frozenfractal.com/#
-game_over.wav by Thomas Springfeldt
+- Background picture on start screen - https://www.flickr.com/photos/galet09/15447326299
+- Ship sprites - https://opengameart.org/content/space-ships-side-scroller
+- Invincibility power up sprite - https://opengameart.org/content/star-svg
+- Bullet sprite - https://opengameart.org/content/assets-free-laser-bullets-pack-2020
+- Game sounds from https://jfxr.frozenfractal.com/#
+- game_over.wav by Thomas Springfeldt
